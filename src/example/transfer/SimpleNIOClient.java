@@ -28,18 +28,18 @@ public class SimpleNIOClient {
 	
 	public SimpleNIOClient() throws Exception // 생성자
 	{
-		initClient();
+		initClient(); // 클라이언트 정립
 	}
 	
 	public void initClient() throws Exception
 	{
-		selector = Selector.open();
-		sc = SocketChannel.open(new InetSocketAddress(HOST,PORT));
-		sc.configureBlocking(false);
+		selector = Selector.open(); // 설렉터 객체 생성
+		sc = SocketChannel.open(new InetSocketAddress(HOST,PORT)); // 소켓 연결
+		sc.configureBlocking(false); // 블로킹 해제
 		sc.register(selector, SelectionKey.OP_READ);
 		
-		sslClient = new SSLClient(keyStore, storepass.toCharArray(), sc);
-		sslClient.beginHandShake();
+		sslClient = new SSLClient(keyStore, storepass.toCharArray(), sc); // SSL클라이언트 생성 (키스토어 위치, )
+		sslClient.beginHandShake(); // 핸드쉐이크 시작
 	}
 	
 	public void startClient()
