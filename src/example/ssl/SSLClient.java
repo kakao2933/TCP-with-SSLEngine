@@ -39,7 +39,7 @@ public class SSLClient {
 			this.sc = sc;
 			// initialize
 			KeyStore ks = KeyStore.getInstance("JKS");
-			ks.load(new FileInputStream(trustStorePath),passPhrase);
+			ks.load(new FileInputStream(trustStorePath),passPhrase); // qdqdqdqdqdsa dsad
 			
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 			tmf.init(ks);

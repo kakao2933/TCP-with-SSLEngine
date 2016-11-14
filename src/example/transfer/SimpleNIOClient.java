@@ -16,7 +16,7 @@ import example.util.Util;
 public class SimpleNIOClient {
 
 	private static final String keyStore = "keystore/client/SimpleNIOClient.keystore";
-	private static final String storepass = "example";
+	private static final String storepass = "examples";
 	
 	private static final String HOST = "localhost"; // 연결할 주소
 	private static final int PORT = 9090; // 연결할 포트
