@@ -38,14 +38,14 @@ public class SSLClient {
 			this.passPhrase = passPhrase;
 			this.sc = sc;
 			// initialize
-			KeyStore ks = KeyStore.getInstance("JKS");
-			ks.load(new FileInputStream(trustStorePath),passPhrase); // qdqdqdqdqdsa dsad
+			KeyStore ks = KeyStore.getInstance("JKS"); // KeyStore Object 생성 - JKS는 Java KeyStore로 기본적인 저장 구현
+			ks.load(new FileInputStream(trustStorePath),passPhrase); // keyStore 로 (경로 / 비밀번호)
 			
-			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
-			tmf.init(ks);
+			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509"); // TrustManagerFactory 객체를 SunX509 알고리즘으로 생성
+			tmf.init(ks); // 만들어진 KeyStore 객체로 초기화한다.
 			
-			sslContext = SSLContext.getInstance("TLS");
-			sslContext.init(null, tmf.getTrustManagers(), null);
+			sslContext = SSLContext.getInstance("TLS");  // SSLContext를 TLS알고리즘으로 생성
+			sslContext.init(null, tmf.getTrustManagers(), null); 
 			
 			// Create SSLEngine
 			sslEngine = sslContext.createSSLEngine();

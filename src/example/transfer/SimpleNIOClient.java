@@ -15,33 +15,33 @@ import example.util.Util;
 
 public class SimpleNIOClient {
 
-	private static final String keyStore = "keystore/client/SimpleNIOClient.keystore";
+	private static final String keyStore = "keystore/client/SimpleNIOClient.keystore;";
 	private static final String storepass = "examples";
-	
+
 	private static final String HOST = "localhost"; // 연결할 주소
 	private static final int PORT = 9090; // 연결할 포트
-	
-	private SocketChannel sc = null; // 소켓 채널 객체
+
+	private SocketChannel sc = null; // 소켓 채널 
 	private Selector selector = null;
-	
+
 	private SSLClient sslClient = null; // SSL 연결 객체
-	
+	//
 	public SimpleNIOClient() throws Exception // 생성자
 	{
 		initClient(); // 클라이언트 정립
 	}
-	
+
 	public void initClient() throws Exception
 	{
 		selector = Selector.open(); // 설렉터 객체 생성
 		sc = SocketChannel.open(new InetSocketAddress(HOST,PORT)); // 소켓 연결
 		sc.configureBlocking(false); // 블로킹 해제
 		sc.register(selector, SelectionKey.OP_READ);
-		
+
 		sslClient = new SSLClient(keyStore, storepass.toCharArray(), sc); // SSL클라이언트 생성 (키스토어 위치, )
 		sslClient.beginHandShake(); // 핸드쉐이크 시작
 	}
-	
+
 	public void startClient()
 	{
 		try
@@ -52,13 +52,13 @@ public class SimpleNIOClient {
 				{
 					continue;
 				}
-				
+
 				Iterator<SelectionKey> it = selector.selectedKeys().iterator();
-				
+
 				while(it.hasNext())
 				{
 					SelectionKey key = it.next();
-					
+
 					if(key.isReadable())
 					{
 						read(key);
@@ -69,27 +69,27 @@ public class SimpleNIOClient {
 		}
 		catch(Exception e)
 		{
-			
+
 		}
 	}
-	
+
 	private void read(SelectionKey key)
 	{
 		SocketChannel sc = (SocketChannel)key.channel();
 
-		ByteBuffer buffer = ByteBuffer.allocate(1024);
-		
+		ByteBuffer buffer = ByteBuffer.allocate(1024); // ByteBuffer 객체를 생성하며, 크기를 지정한다.
+
 		try
 		{
 			if(sslClient.getHandShakeStatus() != HandshakeStatus.NOT_HANDSHAKING
 					&& sslClient.getHandShakeStatus() != HandshakeStatus.FINISHED)
 			{
-					sslClient.handshake(sc);
-					
-					if(sslClient.getHandShakeStatus() == HandshakeStatus.NOT_HANDSHAKING)
-					{
-						sc.write(sslClient.encrypt(ByteBuffer.wrap("Hi! Server~!".getBytes())));
-					}
+				sslClient.handshake(sc);
+
+				if(sslClient.getHandShakeStatus() == HandshakeStatus.NOT_HANDSHAKING)
+				{
+					sc.write(sslClient.encrypt(ByteBuffer.wrap("Hi! Server~!".getBytes())));
+				}
 			}
 			else
 			{
@@ -111,7 +111,7 @@ public class SimpleNIOClient {
 			shutdown(sc);
 		}
 	}		
-	
+
 	private void shutdown(SocketChannel sc)
 	{
 		try {
@@ -122,7 +122,7 @@ public class SimpleNIOClient {
 			e.printStackTrace();
 		}
 	}		
-		
+
 	public static void main(String[] args) throws Exception {
 		System.out.println("Running Client...");
 		SimpleNIOClient client = new SimpleNIOClient();
