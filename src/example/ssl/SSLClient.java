@@ -1,4 +1,4 @@
-package example.ssl;
+﻿package example.ssl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class SSLClient {
 			this.trustStorePath = trustStorePath;
 			this.passPhrase = passPhrase;
 			this.sc = sc;
-			// initialize
+			// initialized adsadsadadas
 			KeyStore ks = KeyStore.getInstance("JKS"); // KeyStore Object 생성 - JKS는 Java KeyStore로 기본적인 저장 구현
 			ks.load(new FileInputStream(trustStorePath),passPhrase); // keyStore 로 (경로 / 비밀번호)
 			
